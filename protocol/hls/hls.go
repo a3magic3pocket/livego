@@ -50,6 +50,7 @@ func NewServer() *Server {
 func (server *Server) Serve(listener net.Listener) error {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		server.handle(w, r)
 	})
 	server.listener = listener
