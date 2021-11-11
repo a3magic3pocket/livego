@@ -112,6 +112,7 @@ func (s *Server) Serve(l net.Listener) error {
 		s.handlePull(w, r)
 	})
 	mux.HandleFunc("/control/get", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		s.handleGet(w, r)
 	})
 	mux.HandleFunc("/control/reset", func(w http.ResponseWriter, r *http.Request) {
@@ -202,7 +203,7 @@ func (server *Server) GetLiveStatics(w http.ResponseWriter, req *http.Request) {
 			return true
 		})
 	} else {
-        // Warning: The room should be in the "live/stream" format!
+		// Warning: The room should be in the "live/stream" format!
 		roomInfo, exists := (rtmpStream.GetStreams()).Load(room)
 		if exists == false {
 			res.Status = 404
